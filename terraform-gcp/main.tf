@@ -128,7 +128,7 @@ resource "google_compute_instance" "gpu_node" {
   metadata_startup_script = var.gpu_count > 0 ? templatefile("${path.module}/user_data_gpu.sh", {
     hf_token = var.hf_token
     model_id = var.model_id
-  }) : file("${path.module}/user_data_cpu.sh")
+  }) : replace(file("${path.module}/user_data_cpu.sh"), "\r\n", "\n")
 
   metadata = {
     enable-oslogin = "TRUE"
